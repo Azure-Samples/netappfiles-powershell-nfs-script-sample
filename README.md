@@ -80,6 +80,16 @@ The following table describes all files within this solution:
 Sample output
 ![e2e execution](./media/e2e-execution.png)
 
+# Troubleshoot
+
+If you encounter the below issue when running the PoweShell command
+
+.\CreateANFVolume.ps1 : .\CreateANFVolume.ps1 cannot be loaded. The file .\CreateANFVolume.ps1 is not digitally signed. You cannot 
+run this script on the current system.
+
+Run the following command
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
+
 # References
 
 * [Azure NetApp Files documentation](https://docs.microsoft.com/en-us/azure/azure-netapp-files/)
