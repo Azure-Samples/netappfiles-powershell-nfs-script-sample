@@ -10,14 +10,16 @@
 .OUTPUTS
     Returns Azure account object
 #>
-function ConnectToAzure{
-try{
-    $accountObject = Add-AzAccount
-}
-catch
+function ConnectToAzure
 {
-    OutputMessage -Message "Failed to connect to Azure. please try again!" -MessageType Error
-}
+    try
+    {
+        $accountObject = Add-AzAccount
+    }
+    catch
+    {
+        OutputMessage -Message "Failed to connect to Azure. please try again!" -MessageType Error
+    }
     return $accountObject
 }
 
@@ -31,17 +33,22 @@ catch
 .OUTPUTS
     Returns Azure subscription object
 #>
-function SwitchToTargetSubscription{
-param(
-[string]$SubscriptionId
-)
-try{
-    $currentSubscription = Select-AzSubscription -Subscription $SubscriptionId
-}
-catch
+function SwitchToTargetSubscription
 {
-    OutputMessage -Message "Invalid subsciption. Provide a valid subscription ID and try again!"
-}
+    param
+    (
+        [string]$TargetSubscriptionId
+    )
+
+    #try to switch to the correct target subscription
+    try
+    {
+        $currentSubscription = Select-AzSubscription -Subscription $SubscriptionId
+    }
+    catch
+    {
+        OutputMessage -Message "Invalid subsciption. Provide a valid subscription ID and try again!"
+    }
 
     return $currentSubscription
 }

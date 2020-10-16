@@ -22,122 +22,122 @@
     AllowedClientsIp: Client IP to access Azure NetApp files volume
     CleanupResources: If script should clean up the resources, $false by default
 #>
-param(
-# Name of the Azure Resource Group
-[Parameter(Mandatory)]
-[string]$SubscriptionId,
+param
+(
+    # Name of the Azure Resource Group
+    [Parameter(Mandatory)]
+    [string]$SubscriptionId,
 
-# Name of the Azure Resource Group
-[Parameter(Mandatory)]
-[string]$ResourceGroupName,
+    # Name of the Azure Resource Group
+    [Parameter(Mandatory)]
+    [string]$ResourceGroupName,
 
-#Azure location 
-[Parameter(Mandatory)]
-[string]$Location,
+    #Azure location 
+    [Parameter(Mandatory)]
+    [string]$Location,
 
-#Azure NetApp Files account name
-[Parameter(Mandatory)]
-[string]$NetAppAccountName,
+    #Azure NetApp Files account name
+    [Parameter(Mandatory)]
+    [string]$NetAppAccountName,
 
-#Azure NetApp Files capacity pool name
-[Parameter(Mandatory)]
-[string]$NetAppPoolName,
+    #Azure NetApp Files capacity pool name
+    [Parameter(Mandatory)]
+    [string]$NetAppPoolName,
 
-# Service Level can be {Ultra, Premium or Standard}
-[Parameter(Mandatory)]
-[ValidateSet("Ultra","Premium","Standard")]
-[string]$ServiceLevel,
+    # Service Level can be {Ultra, Premium or Standard}
+    [Parameter(Mandatory)]
+    [ValidateSet("Ultra","Premium","Standard")]
+    [string]$ServiceLevel,
 
-#Azure NetApp Files capacity pool size
-[Parameter(Mandatory= $false)]
-[ValidateRange(4398046511104,549755813888000)]
-[long]$NetAppPoolSize = 4398046511104,
+    #Azure NetApp Files capacity pool size
+    [Parameter(Mandatory= $false)]
+    [ValidateRange(4398046511104,549755813888000)]
+    [long]$NetAppPoolSize = 4398046511104,
 
-#Azure NetApp Files volume name
-[Parameter(Mandatory)]
-[string]$NetAppVolumeName,
+    #Azure NetApp Files volume name
+    [Parameter(Mandatory)]
+    [string]$NetAppVolumeName,
 
-#Azure NetApp Files volume protocol type {NFSv4.1 , NFSv3}
-[Parameter(Mandatory)]
-[ValidateSet("NFSv3","NFSv4.1")]
-[string]$ProtocolType,
+    #Azure NetApp Files volume protocol type {NFSv4.1 , NFSv3}
+    [Parameter(Mandatory)]
+    [ValidateSet("NFSv3","NFSv4.1")]
+    [string]$ProtocolType,
 
-#Azure NetApp Files volume size
-[Parameter(Mandatory= $false)]
-[ValidateRange(107374182400,109951162777600)]
-[long]$NetAppVolumeSize=107374182400,
+    #Azure NetApp Files volume size
+    [Parameter(Mandatory= $false)]
+    [ValidateRange(107374182400,109951162777600)]
+    [long]$NetAppVolumeSize=107374182400,
 
-#Subnet Id 
-[Parameter(Mandatory)]
-[string]$SubnetId,
+    #Subnet Id 
+    [Parameter(Mandatory)]
+    [string]$SubnetId,
 
-#UnixReadOnly property
-[Parameter(Mandatory = $false)]
-[bool]$EPUnixReadOnly = $false,
+    #UnixReadOnly property
+    [Parameter(Mandatory = $false)]
+    [bool]$EPUnixReadOnly = $false,
 
-#UnixReadWrite property
-[Parameter(Mandatory = $false)]
-[bool]$EPUnixReadWrite = $true,
+    #UnixReadWrite property
+    [Parameter(Mandatory = $false)]
+    [bool]$EPUnixReadWrite = $true,
 
-#UnixReadOnly property
-[Parameter(Mandatory = $false)]
-[string]$AllowedClientsIp = "0.0.0.0/0",
+    #UnixReadOnly property
+    [Parameter(Mandatory = $false)]
+    [string]$AllowedClientsIp = "0.0.0.0/0",
 
-#Clean Up resources
-[Parameter(Mandatory = $false)]
-[bool]$CleanupResources = $false
-
+    #Clean Up resources
+    [Parameter(Mandatory = $false)]
+    [bool]$CleanupResources = $false
 )
 
 Import-Module .\Common\AzureAuth.psm1
 Import-Module .\Common\Util.psm1
 Import-Module .\Common\CommonSDK.psm1
 
+
 # Display script header text
 DisplayScriptHeader
 
 # Authorizing and connecting to Azure
 OutputMessage -Message "Authorizing with Azure Account..." -MessageType Info 
-$azureAccount = ConnectToAzure
+$AzureAccount = ConnectToAzure
 OutputMessage -Message "Successfully authorized user with your Azure account." -MessageType Success
 
 #Validating if the target subscription Id is set to the current or default. Otherwise Azure NetApp files will be provisioned under the wrong subscription
-$selectedSubId = $azureAccount.Context.Subscription.Id
-Write-Debug -Message $selectedSubId
-if($selectedSubId -ne $SubscriptionId.Trim())
+$SelectedSubId = $AzureAccount.Context.Subscription.Id
+if($SelectedSubId -ne $SubscriptionId.Trim())
 {
     OutputMessage -Message "Provided subscription {$SubscriptionId} is not set to current or default subscription, Switching now!" -MessageType Warning
-     # Choose the right subscription
+    # Choose the right subscription
     OutputMessage -Message "Switching the current Azure subscription to {$SubscriptionId}" -MessageType Info
-    $currentSub = SwitchToTargetSubscription -SubscriptionId $SubscriptionId
+    $currentSub = SwitchToTargetSubscription -TargetSubscriptionId $SubscriptionId
     OutputMessage -Message "{$SubscriptionId} is set to current" -MessageType Success    
 }
 
 
 # Create Azure NetApp Files Account
 OutputMessage -Message "Creating Azure NetApp Files Account {$NetAppAccountName}" -MessageType Info
-$newAccount = CreateNewANFAccount -resourceGroupName $ResourceGroupName -location $Location -netAppAccountName $NetAppAccountName
-$newAccountId = $newAccount.Id
-OutputMessage -Message "Azure NetApp Files Account {$NetAppAccountName} was successfully created: {$newAccountId.}" -MessageType Success
+$NewAccount = CreateNewANFAccount -TargetResourceGroupName $ResourceGroupName -Azurelocation $Location -AzNetAppAccountName $NetAppAccountName
+$NewAccountId = $NewAccount.Id
+OutputMessage -Message "Azure NetApp Files Account {$NetAppAccountName} was successfully created: {$NewAccountId}" -MessageType Success
 
 # Create Azure NetApp Files Capacity Pool
 OutputMessage -Message "Creating Azure NetApp Files Capacity Pool {$NetAppPoolName}" -MessageType Info
-$newPool = CreateNewANFCapacityPool -ResourceGroupName $ResourceGroupName -Location $Location -NetAppAccountName $NetAppAccountName -NetAppPoolName $NetAppPoolName -NetAppPoolSize $NetAppPoolSize -ServiceLevel $ServiceLevel
-$newPoolId= $newPool.Id
-OutputMessage -Message "Azure NetApp Files Capacity Pool {$NetAppPoolName} was successfully created: {$newPoolId}" -MessageType Success
+$NewPool = CreateNewANFCapacityPool -TargetResourceGroupName $ResourceGroupName -Azurelocation $Location -AzNetAppAccountName $NetAppAccountName -AzNetAppPoolName $NetAppPoolName -AzNetAppPoolSize $NetAppPoolSize -ServiceLevelTier $ServiceLevel
+$NewPoolId= $newPool.Id
+OutputMessage -Message "Azure NetApp Files Capacity Pool {$NetAppPoolName} was successfully created: {$NewPoolId}" -MessageType Success
 
 #Create Azure NetApp Files NFS Volume
 OutputMessage -Message "Creating Azure NetApp Files $ProtocolType Volume {$NetAppVolumeName}" -MessageType Info
-$newVolume = CreateNewANFVolume -ResourceGroupName $ResourceGroupName -Location $Location -NetAppAccountName $NetAppAccountName -NetAppPoolName $NetAppPoolName -NetAppPoolSize $NetAppPoolSize -netAppVolumeName $NetAppVolumeName -netAppVolumeSize $NetAppVolumeSize -protocolType $ProtocolType -ServiceLevel $ServiceLevel -SubnetId $SubnetId -unixReadOnly $EPUnixReadOnly -unixReadWrite $EPUnixReadWrite -allowedClient $AllowedClientsIp
-$newVolumeId = $newVolume.Id
-OutputMessage -Message "Azure NetApp Files Volume {$NetAppVolumeName} was successfully created: {$newVolumeId.}" -MessageType Success
+$NewVolume = CreateNewANFVolume -TargetResourceGroupName $ResourceGroupName -Azurelocation $Location -AzNetAppAccountName $NetAppAccountName -AzNetAppPoolName $NetAppPoolName -AzNetAppPoolSize $NetAppPoolSize -AzNetAppVolumeName $NetAppVolumeName -AzNetAppVolumeSize $NetAppVolumeSize -VolumeProtocolType $ProtocolType -ServiceLevelTier $ServiceLevel -VNETSubnetId $SubnetId -EPUnixReadOnly $EPUnixReadOnly -EPunixReadWrite $EPUnixReadWrite -AllowedClientIP $AllowedClientsIp
+$NewVolumeId = $NewVolume.Id
+OutputMessage -Message "Azure NetApp Files Volume {$NetAppVolumeName} was successfully created: {$NewVolumeId}" -MessageType Success
 
 OutputMessage -Message "Azure NetApp Files has been created successfully." -MessageType Success
 
-if($CleanupResources){
-
+if($CleanupResources)
+{
     DisplayCleanupHeader
     OutputMessage -Message "Cleaning up Azure NetApp Files resources..." -MessageType Info
-    CleanUpResources -resourceGroupName $ResourceGroupName -netAppAccountName $NetAppAccountName -netAppPoolName $NetAppPoolName -netAppVolumeName $NetAppVolumeName
+    CleanUpResources -TargetResourceGroupName $ResourceGroupName -AzNetAppAccountName $NetAppAccountName -AzNetAppPoolName $NetAppPoolName -AzNetAppVolumeName $NetAppVolumeName
     OutputMessage -Message "All Azure NetApp Files resources have been deleted successfully." -MessageType Success        
 }

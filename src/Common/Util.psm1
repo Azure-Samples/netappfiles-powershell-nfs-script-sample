@@ -2,7 +2,8 @@
 .SYNOPSIS
     Display script header text
 #>
-function DisplayScriptHeader{
+function DisplayScriptHeader
+{
     OutputMessage -Message "-----------------------------------------------------------------------------------------------------------------------------------" -MessageType Info
     OutputMessage -Message "Azure NetAppFiles PowerShell NFS SDK Sample - Sample project that creates Azure NetApp Files Volume uses NFSv3 or NFSv4.1 protocol|" -MessageType Info
     OutputMessage -Message "-----------------------------------------------------------------------------------------------------------------------------------" -MessageType Info
@@ -12,7 +13,8 @@ function DisplayScriptHeader{
 .SYNOPSIS
     Display Clean up text
 #>
-function DisplayCleanupHeader{
+function DisplayCleanupHeader
+{
     OutputMessage -Message "-----------------------------------------" -MessageType Info
     OutputMessage -Message "Cleaning up Azure NetApp Files resources|" -MessageType Info
     OutputMessage -Message "-----------------------------------------" -MessageType Info
@@ -29,19 +31,22 @@ function DisplayCleanupHeader{
     $Message = Message Text
     $MessageType = Message Type: Info, Success, Warning or Error
 #>
-function OutputMessage{
-param(
-[string]$Message,
-[ValidateSet("Info","Success","Warning","Error")]
-[string]$MessageType)
-
-$datetime = Get-Date -Format T
-[string]$showMessage = $datetime +": "+ $message
-switch($MessageType)
+function OutputMessage
 {
-    Info {Write-Host -Object $showMessage -ForegroundColor White }
-    Success {Write-Host -Object $showMessage -ForegroundColor Green }
-    Warning {Write-Host -Object $showMessage -ForegroundColor Yellow }
-    Error {Write-Error -Message $showMessage -ErrorAction Stop}
-}
+    param
+    (
+        [string]$Message,
+        [ValidateSet("Info","Success","Warning","Error")]
+        [string]$MessageType
+    )
+
+    $datetime = Get-Date -Format T
+    [string]$showMessage = $datetime +": "+ $message
+    switch($MessageType)
+    {
+        Info {Write-Host -Object $showMessage -ForegroundColor White }
+        Success {Write-Host -Object $showMessage -ForegroundColor Green }
+        Warning {Write-Host -Object $showMessage -ForegroundColor Yellow }
+        Error {Write-Error -Message $showMessage -ErrorAction Stop}
+    }
 }
