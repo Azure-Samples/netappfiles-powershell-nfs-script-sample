@@ -45,18 +45,36 @@ The following table describes all files within this solution:
 
 # How to run the PowerShell script
 
+1. Run the following PS commands seperatly
+	* Install-Module Az.NetAppFiles
+	* Import-Module Az.NetAppFiles
+	
 1. Clone it locally
     ```powershell
     git clone https://github.com/Azure-Samples/netappfiles-powershell-nfs-sdk-sample.git
     ```
-1. Change folder to **netappfiles-powershell-nfs-sdk-sample\src**
-1. Run the following PS commands seperatly
-	* Install-Module Az.NetAppFiles
-	* Import-Module Az.NetAppFiles
-1. Change values bewtween brackets [] and then run the following command 
+	
+1. Basic mode
+   Single script create Azure NetApp files with no validation.
+	* Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Basic**
+	* Open CreateANFVolume and edit all the parameters
+	* Save and close
+	* Run the following command
+	``` powershell
+	CreateANFVolume.ps1
+	```
+	
+	Sample output
+	![e2e execution](./media/Basic/e2e-execution.png)
+	
+1. Advanced mode
+   More advanced way to run the script to create Azure Netapp Files with validation using modules
+	* Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Advanced**
+	* Change values bewtween brackets [ ] below and then run the command 
     ```powershell
     CreateANFVolume.ps1 -SubscriptionId '[subscriptionId]' -ResourceGroupName '[Azure Resource Group Name]' -Location '[Azure Location]' -NetAppAccountName '[ANF Account Name]' -NetAppPoolName '[ANF Capacity Pool Name]' -ServiceLevel [Ultra,Premium, Standard] -NetAppVolumeName '[ANF Volume Name]' -ProtocolType [NFSv3,NFSv4.1] -SubnetId '[Subnet ID]'
     ```
+	
 	>Note: The below table shows all the mandatory and optional parameters
 	
 	| Parameter  		| Mandatory | Default Value |
@@ -77,15 +95,17 @@ The following table describes all files within this solution:
     | -AllowedClientsIp	| No		| 0.0.0.0/0		|
     | -CleanupResources	| No		| False			|
 	
-Sample output
-![e2e execution](./media/e2e-execution.png)
+	Sample output
+	![e2e execution](./media/Advanced/e2e-execution.png)
 
 # Troubleshoot
 
 If you encounter the below issue when running the PoweShell command
 
+```
 .\CreateANFVolume.ps1 : .\CreateANFVolume.ps1 cannot be loaded. The file .\CreateANFVolume.ps1 is not digitally signed. You cannot 
 run this script on the current system.
+```
 
 Run the following command
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
