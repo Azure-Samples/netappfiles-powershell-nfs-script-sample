@@ -2,7 +2,7 @@
 .SYNOPSIS
     This script creates Azure Netapp files resources with NFS volume type
 .DESCRIPTION
-    The script Authenticate with Azure and select the targeted subscription first, then created ANF account, capacity pool and NFS Volume
+    Authenticates with Azure and select the targeted subscription first, then created ANF account, capacity pool and NFS Volume
 .PARAMETER SubscriptionId
     Target Subscription
 .PARAMETER ResourceGroupName
@@ -39,7 +39,7 @@
 param
 (
     # Name of the Azure Resource Group
-    [string]$ResourceGroupName = 'adghabboPrim-rg',
+    [string]$ResourceGroupName = 'My-RG',
 
     #Azure location 
     [string]$Location ='WestUS',
@@ -70,7 +70,7 @@ param
     [long]$NetAppVolumeSize = 107374182400,
 
     #Subnet Id 
-    [string]$SubnetId = '/subscriptions/f557b96d-2308-4a18-aae1-b8f7e7e70cc7/resourceGroups/adghabboPrim-rg/providers/Microsoft.Network/virtualNetworks/adghabboPrim-rg-vnet/subnets/primsubnet',
+    [string]$SubnetId = 'Subnet ID',
 
     #UnixReadOnly property
     [bool]$EPUnixReadOnly = $false,
@@ -129,13 +129,13 @@ else
 }
 
 $ExportPolicyRule = New-Object -TypeName Microsoft.Azure.Commands.NetAppFiles.Models.PSNetAppFilesExportPolicyRule
-    $ExportPolicyRule.RuleIndex =1
-    $ExportPolicyRule.UnixReadOnly =$EPUnixReadOnly
-    $ExportPolicyRule.UnixReadWrite =$EPUnixReadWrite
-    $ExportPolicyRule.Cifs = $False
-    $ExportPolicyRule.Nfsv3 = $NFSv3Protocol
-    $ExportPolicyRule.Nfsv41 = $NFSv4Protocol
-    $ExportPolicyRule.AllowedClients =$AllowedClientsIp
+$ExportPolicyRule.RuleIndex =1
+$ExportPolicyRule.UnixReadOnly =$EPUnixReadOnly
+$ExportPolicyRule.UnixReadWrite =$EPUnixReadWrite
+$ExportPolicyRule.Cifs = $False
+$ExportPolicyRule.Nfsv3 = $NFSv3Protocol
+$ExportPolicyRule.Nfsv41 = $NFSv4Protocol
+$ExportPolicyRule.AllowedClients =$AllowedClientsIp
 
 $ExportPolicy = New-Object -TypeName Microsoft.Azure.Commands.NetAppFiles.Models.PSNetAppFilesVolumeExportPolicy -Property @{Rules = $ExportPolicyRule}
 

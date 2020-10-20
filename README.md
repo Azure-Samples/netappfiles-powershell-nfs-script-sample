@@ -31,6 +31,9 @@ If you don't already have a Microsoft Azure subscription, you can get a FREE tri
 1. Resource Group created
 1. Virtual Network with a delegated subnet to Microsoft.Netapp/volumes resource. For more information, please refer to [Guidelines for Azure NetApp Files network planning](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies)
 1. Azure PowerShell, please refer to [Install Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.8.0)
+1. Run the following PS command:
+	* Install-Module Az.NetAppFiles
+
 
 # How the project is structured
 
@@ -45,10 +48,6 @@ The following table describes all files within this solution:
 
 # How to run the PowerShell script
 
-1. Run the following PS commands seperatly
-	* Install-Module Az.NetAppFiles
-	* Import-Module Az.NetAppFiles
-	
 1. Clone it locally
     ```powershell
     git clone https://github.com/Azure-Samples/netappfiles-powershell-nfs-sdk-sample.git
@@ -116,8 +115,7 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 
 # References
 
-* [Azure NetApp Files documentation](https://docs.microsoft.com/en-us/azure/azure-netapp-files/)
-* [Sign in with Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-4.8.0)
+* [Azure NetApp Files documentation](https://docs.microsoft.com/en-us/azure/azure-netapp-files/)* [Sign in with Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-4.8.0)
 * [Azure PowerShell AZ Module](https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-4.8.0)
 * [AZ.NetAppFile](https://docs.microsoft.com/en-us/powershell/module/az.netappfiles/?view=azps-4.8.0#netapp-files)
 * [Resource limits for Azure NetApp Files](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-resource-limits)

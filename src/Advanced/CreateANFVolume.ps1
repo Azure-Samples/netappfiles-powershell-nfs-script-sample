@@ -2,7 +2,7 @@
 .SYNOPSIS
     This script creates Azure Netapp files resources with NFS volume type
 .DESCRIPTION
-    The script Authenticate with Azure and select the targeted subscription first, then created ANF account, capacity pool and NFS Volume
+    Authenticates with Azure and select the targeted subscription first, then created ANF account, capacity pool and NFS Volume
 .PARAMETER SubscriptionId
     Target Subscription
 .PARAMETER ResourceGroupName

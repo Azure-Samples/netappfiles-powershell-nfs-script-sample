@@ -1,17 +1,22 @@
-﻿Import-Module .\Common\Util.psm1
-
-<#
-.SYNOPSIS
-    Connect and authenticate with Azure Account
+﻿<#
 .DESCRIPTION
-    A login dialog will pop up to authenticate with Azure
-.EXAMPLE
-    $accountObj = ConnectToAzure
-.OUTPUTS
-    Returns Azure account object
+    Includes functions to authenticate script to access Azure and select the right subscription
 #>
+
+Import-Module .\Common\Util.psm1
+
 function ConnectToAzure
 {
+    <#
+    .SYNOPSIS
+        Connect and authenticate with Azure Account
+    .DESCRIPTION
+        A login dialog will pop up to authenticate with Azure
+    .EXAMPLE
+        $accountObj = ConnectToAzure
+    .OUTPUTS
+        Returns Azure account object
+    #>
     try
     {
         $accountObject = Add-AzAccount
@@ -23,18 +28,19 @@ function ConnectToAzure
     return $accountObject
 }
 
-<#
-.SYNOPSIS
-    Selects an Azure subscription
-.DESCRIPTION
-    A helper method to switch to the targeted subscription
-.EXAMPLE
-    $currentSub = SwitchToTargetSubscription
-.OUTPUTS
-    Returns Azure subscription object
-#>
+
 function SwitchToTargetSubscription
 {
+    <#
+    .SYNOPSIS
+        Selects an Azure subscription
+    .DESCRIPTION
+        A helper method to switch to the targeted subscription
+    .EXAMPLE
+        $currentSub = SwitchToTargetSubscription
+    .OUTPUTS
+        Returns Azure subscription object
+    #>
     param
     (
         [string]$TargetSubscriptionId

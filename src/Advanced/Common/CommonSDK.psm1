@@ -1,7 +1,27 @@
-﻿Import-Module .\Common\Util.psm1
+﻿<#
+This Module includes common functions for creating and deleting Azure NetApp Files main resources (Account, Capacity Pool, and Volume)
+#>
+
+Import-Module .\Common\Util.psm1
 
 function CleanUpResources
 {
+    <#
+    .SYNOPSIS
+        Clean-up Azure NetApp Files Resources
+    .DESCRIPTION
+        This method will clean up all created Azure Netapp Files resources if the argument -CleanupResources is set to $true 
+    .PARAMETER TargetResourceGroupName
+        Name of the Azure Resource Group where the ANF will be created
+    .PARAMETER AzNetAppAccountName
+        Name of the Azure NetApp Files Account
+    .PARAMETER AzNetAppPoolName
+        Name of the Azure NetApp Files Capacity Pool
+    .PARAMETER AzNetAppVolumeName 
+        Name of the Azure NetApp Files Volume 
+    .EXAMPLE
+        CleanUpResources
+    #>
     param
     (
         [string]$TargetResourceGroupName,  
@@ -85,29 +105,29 @@ function CleanUpResources
     catch
     {
         OutputMessage -Message "Failed to delete Account!" -MessageType Error
-    }    
+    }  
 
-<#
-.SYNOPSIS
-    Clean-up Azure NetApp Files Resources
-.DESCRIPTION
-    This method will clean up all created Azure Netapp Files resources if the argument -CleanupResources is set to $true 
-.PARAMETER TargetResourceGroupName
-    Name of the Azure Resource Group where the ANF will be created
-.PARAMETER AzNetAppAccountName
-    Name of the Azure NetApp Files Account
-.PARAMETER AzNetAppPoolName
-    Name of the Azure NetApp Files Capacity Pool
-.PARAMETER AzNetAppVolumeName 
-    Name of the Azure NetApp Files Volume 
-.EXAMPLE
-    CleanUpResources
-#>
-}
+}  
 
 
 function CreateNewANFAccount
-{    
+{  
+    <#
+    .SYNOPSIS
+        Creates new Azure NetApp Files account
+    .DESCRIPTION
+        This method will create new Azure NetApp Files account under the specified Resource Group
+    .PARAMETER TargetResourceGroupName
+        Name of the Azure Resource Group where the ANF will be created
+    .PARAMETER AzureLocation
+        Azure Location
+    .PARAMETER AzNetAppAccountName
+        Name of the Azure NetApp Files Account
+    .OUTPUT
+        ANF account object
+    .EXAMPLE
+        CreateNewANFAccount - resourceGroupName 'My-RG' -location 'WestUS' -netAppAccountName 'netapptestaccount'
+    #>
     param
     (
         [string]$TargetResourceGroupName, 
@@ -130,27 +150,33 @@ function CreateNewANFAccount
     }
     return $NewANFAccount
 
-<#
-.SYNOPSIS
-    Creates new Azure NetApp Files account
-.DESCRIPTION
-    This method will create new Azure NetApp Files account under the specified Resource Group
-.PARAMETER TargetResourceGroupName
-    Name of the Azure Resource Group where the ANF will be created
-.PARAMETER AzureLocation
-    Azure Location
-.PARAMETER AzNetAppAccountName
-    Name of the Azure NetApp Files Account
-.OUTPUT
-    ANF account object
-.EXAMPLE
-    CreateNewANFAccount - resourceGroupName 'My-RG' -location 'WestUS' -netAppAccountName 'netapptestaccount'
-#>
 }
 
 
 function CreateNewANFCapacityPool
 {
+    <#
+    .SYNOPSIS
+        Creates new Azure NetApp Files capacity pool
+    .DESCRIPTION
+        This method will create new Azure NetApp Files capacity pool within the specified account
+    .PARAMETER TargetResourceGroupName
+        Name of the Azure Resource Group where the ANF will be created
+    .PARAMETER AzureLocation 
+        Azure Location
+    .PARAMETER AzNetAppAccountName
+        Name of the Azure NetApp Files Account
+    .PARAMETER AzNetAppPoolName
+        Name of the Azure NetApp Files Capacity Pool
+    .PARAMETER AzServiceLevel
+        Ultra, Premium or Standard
+    .PARAMETER AzNetAppPoolSize
+        Size of the Azure NetApp Files Capacity Pool in Bytes. Range between 4398046511104 and 549755813888000
+    .OUTPUT
+        ANF Capacity Pool object
+    .EXAMPLE
+        CreateNewANFCapacityPool - resourceGroupName 'My-RG' -location 'WestUS' -netAppAccountName 'testaccount' -netAppPoolName 'pool1' -netAppPoolSize 4398046511104 -serviceLevel Standard
+    #>
     param
     (
         [string]$TargetResourceGroupName, 
@@ -181,33 +207,45 @@ function CreateNewANFCapacityPool
     }
 
     return $NewANFPool
-<#
-.SYNOPSIS
-    Creates new Azure NetApp Files capacity pool
-.DESCRIPTION
-    This method will create new Azure NetApp Files capacity pool within the specified account
-.PARAMETER TargetResourceGroupName
-    Name of the Azure Resource Group where the ANF will be created
-.PARAMETER AzureLocation 
-    Azure Location
-.PARAMETER AzNetAppAccountName
-    Name of the Azure NetApp Files Account
-.PARAMETER AzNetAppPoolName
-    Name of the Azure NetApp Files Capacity Pool
-.PARAMETER AzServiceLevel
-    Ultra, Premium or Standard
-.PARAMETER AzNetAppPoolSize
-    Size of the Azure NetApp Files Capacity Pool in Bytes. Range between 4398046511104 and 549755813888000
-.OUTPUT
-    ANF Capacity Pool object
-.EXAMPLE
-    CreateNewANFCapacityPool - resourceGroupName 'My-RG' -location 'WestUS' -netAppAccountName 'testaccount' -netAppPoolName 'pool1' -netAppPoolSize 4398046511104 -serviceLevel Standard
-#>
 }
 
 
 function CreateNewANFVolume
 {
+    <#
+    .SYNOPSIS
+        Creates new Azure NetApp Files NFS volume
+    .DESCRIPTION
+        This method will create new Azure NetApp Files volume under the specified Capacity Pool
+    .PARAMETER TargetResourceGroupName
+        Name of the Azure Resource Group where the ANF will be created
+    .PARAMETER AzureLocation
+        Azure Location
+    .PARAMETER AzNetAppAccountName
+        Name of the Azure NetApp Files Account
+    .PARAMETER AzNetAppPoolName
+        Name of the Azure NetApp Files Capacity Pool
+    .PARAMETER ServiceLevelTier
+        Ultra, Premium or Standard
+    .PARAMETER AzNetAppPoolSize
+        Size of the Azure NetApp Files Capacity Pool in Bytes. Range between 4398046511104 and 549755813888000
+    .PARAMETER AzNetAppVolumeName
+        Name of the Azure NetApp Files Volume
+    .PARAMETER VolumeProtocolType
+        NFSv4.1 or NFSv3
+    .PARAMETER AzNetAppVolumeSize
+        Size of the Azure NetApp Files volume in Bytes. Range between 107374182400 and 109951162777600
+    .PARAMETER VNETSubnetId
+        The Delegated subnet Id within the VNET
+    .PARAMETER EPUnixReadOnly
+        Export Policy UnixReadOnly property 
+    .PARAMETER EPUnixReadWrite
+        Export Policy UnixReadWrite property
+    .PARAMETER AllowedClientsIp
+        Client IP to access Azure NetApp files volume
+    .EXAMPLE
+        CreateNewANFVolume - resourceGroupName [Resource Group Name] -location [Azure Location] -netAppAccountName [NetApp Account Name] -netAppPoolName [NetApp Pool Name] -netAppPoolSize [Size of the Capacity Pool] -serviceLevel [service level (Ultra, Premium or Standard)] -netAppVolumeName [NetApp Volume Name] -netAppVolumeSize [Size of the Volume] -protocolType [NFSv3 or NFSv4.1] -subnetId [Subnet ID] -unixReadOnly [Read Permission flag] -unixReadWrite [Read/Write permission flag] -allowedClients [Allowed clients IP]
+    #>
     param
     (
         [string]$TargetResourceGroupName, 
@@ -274,38 +312,4 @@ function CreateNewANFVolume
     
     return $NewANFVolume
 
-<#
-.SYNOPSIS
-    Creates new Azure NetApp Files NFS volume
-.DESCRIPTION
-    This method will create new Azure NetApp Files volume under the specified Capacity Pool
-.PARAMETER TargetResourceGroupName
-    Name of the Azure Resource Group where the ANF will be created
-.PARAMETER AzureLocation
-    Azure Location
-.PARAMETER AzNetAppAccountName
-    Name of the Azure NetApp Files Account
-.PARAMETER AzNetAppPoolName
-    Name of the Azure NetApp Files Capacity Pool
-.PARAMETER ServiceLevelTier
-    Ultra, Premium or Standard
-.PARAMETER AzNetAppPoolSize
-    Size of the Azure NetApp Files Capacity Pool in Bytes. Range between 4398046511104 and 549755813888000
-.PARAMETER AzNetAppVolumeName
-    Name of the Azure NetApp Files Volume
-.PARAMETER VolumeProtocolType
-    NFSv4.1 or NFSv3
-.PARAMETER AzNetAppVolumeSize
-    Size of the Azure NetApp Files volume in Bytes. Range between 107374182400 and 109951162777600
-.PARAMETER VNETSubnetId
-    The Delegated subnet Id within the VNET
-.PARAMETER EPUnixReadOnly
-    Export Policy UnixReadOnly property 
-.PARAMETER EPUnixReadWrite
-    Export Policy UnixReadWrite property
-.PARAMETER AllowedClientsIp
-    Client IP to access Azure NetApp files volume
-.EXAMPLE
-    CreateNewANFVolume - resourceGroupName [Resource Group Name] -location [Azure Location] -netAppAccountName [NetApp Account Name] -netAppPoolName [NetApp Pool Name] -netAppPoolSize [Size of the Capacity Pool] -serviceLevel [service level (Ultra, Premium or Standard)] -netAppVolumeName [NetApp Volume Name] -netAppVolumeSize [Size of the Volume] -protocolType [NFSv3 or NFSv4.1] -subnetId [Subnet ID] -unixReadOnly [Read Permission flag] -unixReadWrite [Read/Write permission flag] -allowedClients [Allowed clients IP]
-#>
 }
