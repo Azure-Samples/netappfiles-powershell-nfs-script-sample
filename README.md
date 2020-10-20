@@ -1,31 +1,25 @@
 ---
 page_type: sample
 languages:
-- csharp
+- powershell
 products:
 - azure
 - azure-netapp-files
-description: "This project demonstrates how to use dotnet-core with NetApp Files SDK for Microsoft.NetApp resource provider to deploy a cross-region replication  for NFS 4.1 Volume."
+description: "This project demonstrates how to use Powershell with NetApp Files SDK for Microsoft.NetApp resource provider to deploy NFSv3 or NFSv4.1 Volume."
 ---
 
-# Azure NetAppFiles Cross-Region Replication (CRR) SDK NFS 4.1 Sample .NETCore
+# Azure NetAppFiles SDK NFSv3/NFS4.1 Sample Powershell
 
-This project demonstrates how to deploy a cross-region replication with enabled with NFS 4.1 protocol volume using dotnet-core language and Azure NetApp Files SDK.
+This project demonstrates how to deploy NFSv3/NFSv4.1 protocol type volume using Powershell and Azure NetApp Files SDK.
 
 In this sample application we perform the following operations:
 
 * Creation
-  * Primary ANF Account
-	| Primary Capacity pool 
-		| Primary NFS v4.1 Volume 
-		
- * Secondary ANF Account
-	| Secondary Capacity pool
-		| Secondary NFS v.1 Data Replication Volume with referencing to the primary volume Resource ID
-			
- * Authorize Source volume with Desitnation Volume Resource ID
+  * ANF Account
+  *	Capacity pool 
+  * Primary NFS v4.1 Volume 
  
- * Finally, the clean up process takes place (not enabled by default, please change the variable shouldCleanUp to true at program.cs file if you want the clean up code to take a place),deleting all resources in the reverse order following the hierarchy otherwise we can't remove resources that have nested resources still live. You will also notice that the clean up process uses a function called WaitForNoANFResource, at this moment this is required so we can workaround a current ARM behavior of reporting that the object was deleted when in fact its deletion is still in progress.
+* Deletion, the clean up process takes place (not enabled by default, please set the parameter CleanupResources to $true if you want the clean up code to take a place),deleting all resources in the reverse order following the hierarchy otherwise we can't remove resources that have nested resources still live.
 
 
 If you don't already have a Microsoft Azure subscription, you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212).
@@ -36,78 +30,94 @@ If you don't already have a Microsoft Azure subscription, you can get a FREE tri
 1. Subscription needs to be enabled for Azure NetApp Files. For more information, please refer to [this](https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register#waitlist) document.
 1. Resource Group created
 1. Virtual Network with a delegated subnet to Microsoft.Netapp/volumes resource. For more information, please refer to [Guidelines for Azure NetApp Files network planning](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies)
-1. For this sample console appplication work, we are using service principal based  authenticate, follow these steps in order to setup authentication:
-    1. Within an [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart) session, make sure you're logged on at the subscription where you want to be associated with the service principal by default:
-        ```bash
-        az account show
-        ```
-        If this is not the correct subscription, use             
-          ```bash
-         az account set -s <subscription name or id>  
-         ```
-    1. Create a service principal using Azure CLI
-        ```bash
-        az ad sp create-for-rbac --sdk-auth
-        ```
+1. Azure PowerShell, please refer to [Install Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.8.0)
+1. Run the following PS command:
+	* Install-Module Az.NetAppFiles
 
-        >Note: this command will automatically assign RBAC contributor role to the service principal at subscription level, you can narrow down the scope to the specific resource group where your tests will create the resources.
-
-    1. Copy the output content and paste it in a file called azureauth.json, secure it with file system permissions and save it outside the tree related of your 	local git repo folder so the file doesn't get commited. 
-    1. Set an environment variable pointing to the file path you just created, here is an example with Powershell and bash:
-        Powershell 
-        ```powershell
-       [Environment]::SetEnvironmentVariable("AZURE_AUTH_LOCATION", "C:\sdksample\azureauth.json", "User")
-       ```
-        Bash
-        ```bash
-        export AZURE_AUTH_LOCATION=/sdksamples/azureauth.json
-        ``` 
-
-        >Note: for more information on service principal authentication with dotnet, please refer to [Authenticate with the Azure Libraries for .NET](https://docs.microsoft.com/en-us/dotnet/azure/dotnet-sdk-azure-authenticate?view=azure-dotnet)
-
-# What is anf-dotnetcore-crr-sdk-nfs4.1-sample.dll doing? 
-
-This sample project is dedicated to demonstrate how to enable cross-region replication in Azure NetApp Files for a NFS v4.1 enabled volume, similar to other examples, the authentication method is based on a service principal, this project will create two ANF Accounts in different regions with capacity pool. A single volume using Premium service level tier in the Source ANF, and Data Replication Volume with Standard service level tier in the destination region. 
 
 # How the project is structured
 
 The following table describes all files within this solution:
 
-| Folder      | FileName                | Description                                                                                                                         |
-|-------------|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Root        | program.cs              | Authenticates and executes all operations                                                                                           |
-| Root\Common | ResourceUriUtils.cs     | Static class that exposes some methods that helps parsing Uris, building a new Uris or getting a resource name from Uri for example |
-| Root\Common | ServicePrincipalAuth.cs | Small static class used when working with Service Principal based authentication                                                    |
-| Root\Common | Utils.cs                | Static class that exposes a few methods that helps on various tasks, like writting a log to the console for example.                |
-| Root\Model  | AzureAuthInfo.cs        | Class that defines an Azure AD Service Principal authentication file                                                                |
+| Folder     | FileName                | Description                                                                                                                         |
+|------------|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| src        | CreateANFVolume.ps      | Authenticates and executes all operations                                                                                           |
+| src\Common | CommonSDK.psm1          | PowerShell module that exposes some functions to perform creation and deletion Azure NetApp Files resource that calls the actual Az.NetAppFiles cmdlets							 |
+| src\Common | Utils.psm1              | Static class that exposes a few methods that helps on various tasks, like writting a log to the console for example.                |
+| src\Common | AzureAuth.psm1	       | PoweShell module that exposes functions to connect to Azure and choose target subscription                                          |
 
-# How to run the console application
+# How to run the PowerShell script
 
 1. Clone it locally
     ```powershell
-    git clone https://github.com/Azure-Samples/netappfiles-dotnetcore-nfs4.1-sdk-sample.git
+    git clone https://github.com/Azure-Samples/netappfiles-powershell-nfs-sdk-sample.git
     ```
-1. Make sure you change the variables located at **.netappfiles-dotnetcore-crr-sdk-sample\src\anf-dotnetcore-crr-sdk-sample\program.cs at RunAsync method.**
-1. Change folder to **.netappfiles-dotnetcore-crr-sdk-sample\src\anf-dotnetcore-crr-sdk-sample**
-1. Since we're using service principal authentication flow, make sure you have the **azureauth.json** and its environment variable with the path to it defined (as previously described)
-1. Build the console application
-    ```powershell
-    dotnet build
-    ```
-1. Run the console application
-    ```powershell
-    dotnet run
-    ```
+	
+1. Modes: There are two options to run the script
 
-Sample output
-![e2e execution](./media/e2e-execution.png)
+	* Basic mode
+	Single script create Azure NetApp files with no validation.
+	* Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Basic**
+	* Open CreateANFVolume and edit all the parameters
+	* Save and close
+	* Run the following command
+	``` powershell
+	CreateANFVolume.ps1
+	```
+	
+	Sample output
+	![e2e execution](./media/Basic/e2e-execution.png)
+
+	Or
+	
+   * Advanced mode
+	More advanced way to run the script to create Azure Netapp Files with validation using modules
+	* Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Advanced**
+	* Change values bewtween brackets [ ] below and then run the command 
+    ```powershell
+    CreateANFVolume.ps1 -SubscriptionId '[subscriptionId]' -ResourceGroupName '[Azure Resource Group Name]' -Location '[Azure Location]' -NetAppAccountName '[ANF Account Name]' -NetAppPoolName '[ANF Capacity Pool Name]' -ServiceLevel [Ultra,Premium, Standard] -NetAppVolumeName '[ANF Volume Name]' -ProtocolType [NFSv3,NFSv4.1] -SubnetId '[Subnet ID]'
+    ```
+	
+	>Note: The below table shows all the mandatory and optional parameters
+	
+	| Parameter  		| Mandatory | Default Value |
+	|-------------------|-----------|---------------|
+	| -SubscriptionId   | Yes		| 				|
+	| -ResourceGroupName| Yes       | 				|
+	| -Location 		| Yes       | 				|
+	| -NetAppAccountName| Yes		|				|
+	| -NetAppPoolName	| Yes		|				|
+	| -ServiceLevel		| Yes		|				|
+	| -NetAppPoolSize	| No		| 4398046511104 |
+    | -NetAppVolumeName	| Yes		|				|
+    | -ProtocolType		| Yes		| 				|
+    | -NetAppVolumeSize	| No		| 107374182400	|
+    | -SubnetId			| Yes		|				|
+    | -EPUnixReadOnly	| No		| False			| 
+    | -EPUnixReadWrite	| No		| True			|
+    | -AllowedClientsIp	| No		| 0.0.0.0/0		|
+    | -CleanupResources	| No		| False			|
+	
+	Sample output
+	![e2e execution](./media/Advanced/e2e-execution.png)
+
+# Troubleshoot
+
+If you encounter the below issue when running the PoweShell command
+
+```
+.\CreateANFVolume.ps1 : .\CreateANFVolume.ps1 cannot be loaded. The file .\CreateANFVolume.ps1 is not digitally signed. You cannot 
+run this script on the current system.
+```
+
+Run the following command
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 
 # References
 
-* [Azure NetAppFiles SDK Sample for .NETCore - More advanced example](https://docs.microsoft.com/en-us/samples/azure-samples/netappfiles-dotnetcore-sdk-sample/azure-netappfiles-sdk-sample-for-netcore/)
-* [Authenticate with the Azure Libraries for .NET](https://docs.microsoft.com/en-us/dotnet/azure/dotnet-sdk-azure-authenticate?view=azure-dotnet)
+* [Azure NetApp Files documentation](https://docs.microsoft.com/en-us/azure/azure-netapp-files/)* [Sign in with Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-4.8.0)
+* [Azure PowerShell AZ Module](https://docs.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-4.8.0)
+* [AZ.NetAppFile](https://docs.microsoft.com/en-us/powershell/module/az.netappfiles/?view=azps-4.8.0#netapp-files)
 * [Resource limits for Azure NetApp Files](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-resource-limits)
 * [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart)
-* [Azure NetApp Files documentation](https://docs.microsoft.com/en-us/azure/azure-netapp-files/)
 * [Download Azure SDKs](https://azure.microsoft.com/downloads/)
- 

@@ -1,6 +1,6 @@
-## Azure NetAppFiles Cross-Region Replication (CRR) SDK NFS 4.1 Sample .NETCore
+## Azure NetAppFiles SDK NFSv3/NFSv4.1 Sample PowerShell
 
-[1.0.0 (2019-10-09)](#1.0.0 (2019-10-09))
+[1.0.0 (2020-10-15)](#1.0.0 (2020-10-15))
 
 # 1.0.0 (2019-10-09)
 
