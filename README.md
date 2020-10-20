@@ -67,14 +67,14 @@ The following table describes all files within this solution:
 	Sample output
 	![e2e execution](./media/Basic/e2e-execution.png)
 
-	Or
+	OR
 	
-       Advanced mode - More advanced way to run the script to create Azure Netapp Files with validation using modules
-	* Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Advanced**
-	* Change values bewtween brackets [ ] below and then run the command 
-         ```powershell 
+    Advanced mode - More advanced way to run the script to create Azure Netapp Files with validation using modules
+	 * Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Advanced**
+	 * Change values bewtween brackets [ ] below and then run the command 
+     ```powershell 
 	 CreateANFVolume.ps1 -SubscriptionId '[subscriptionId]' -ResourceGroupName '[Azure Resource Group Name]' -Location '[Azure Location]' -NetAppAccountName '[ANF Account Name]' -NetAppPoolName '[ANF Capacity Pool Name]' -ServiceLevel [Ultra,Premium, Standard] -NetAppVolumeName '[ANF Volume Name]' -ProtocolType [NFSv3,NFSv4.1] -SubnetId '[Subnet ID]'
-         ```
+     ```
 	
 	>Note: The below table shows all the mandatory and optional parameters
 	
