@@ -42,7 +42,7 @@ The following table describes all files within this solution:
 | Folder     | FileName                | Description                                                                                                                         |
 |------------|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | src        | CreateANFVolume.ps      | Authenticates and executes all operations                                                                                           |
-| src\Common | CommonSDK.psm1          | PowerShell module that exposes some functions to perform creation and deletion Azure NetApp Files resource							 |
+| src\Common | CommonSDK.psm1          | PowerShell module that exposes some functions to perform creation and deletion Azure NetApp Files resource that calls the actual Az.NetAppFiles cmdlets							 |
 | src\Common | Utils.psm1              | Static class that exposes a few methods that helps on various tasks, like writting a log to the console for example.                |
 | src\Common | AzureAuth.psm1	       | PoweShell module that exposes functions to connect to Azure and choose target subscription                                          |
 
