@@ -55,8 +55,7 @@ The following table describes all files within this solution:
 	
 1. Modes: There are two options to run the script
 
-	Basic mode
-	 Single script create Azure NetApp files with no validation.
+	Basic mode - Single script create Azure NetApp files with no validation.
 	 * Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Basic**
 	 * Open CreateANFVolume and edit all the parameters
 	 * Save and close
@@ -70,8 +69,7 @@ The following table describes all files within this solution:
 
 	Or
 	
-       Advanced mode
-	More advanced way to run the script to create Azure Netapp Files with validation using modules
+       Advanced mode - More advanced way to run the script to create Azure Netapp Files with validation using modules
 	* Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Advanced**
 	* Change values bewtween brackets [ ] below and then run the command 
          ```powershell
