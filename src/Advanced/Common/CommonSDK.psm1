@@ -1,4 +1,8 @@
-﻿<#
+﻿# Copyright(c) Microsoft and contributors. All rights reserved
+#
+# This source code is licensed under the MIT license found in the LICENSE file in the root directory of the source tree
+
+<#
 This Module includes common functions for creating and deleting Azure NetApp Files main resources (Account, Capacity Pool, and Volume)
 #>
 
