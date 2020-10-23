@@ -111,7 +111,7 @@ param
 
 Import-Module .\Common\AzureAuth.psm1
 Import-Module .\Common\Util.psm1
-Import-Module .\Common\CommonSDK.psm1
+Import-Module .\Common\CommonOperations.psm1
 
 
 # Display script header text

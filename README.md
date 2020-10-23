@@ -17,7 +17,7 @@ In this sample application we perform the following operations:
 * Creation
   * ANF Account
   *	Capacity pool 
-  * Primary NFS v4.1 Volume 
+  * NFS Volume 
  
 * Deletion, the clean up process takes place (not enabled by default, please set the parameter CleanupResources to $true if you want the clean up code to take a place),deleting all resources in the reverse order following the hierarchy otherwise we can't remove resources that have nested resources still live.
 
