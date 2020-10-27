@@ -65,7 +65,7 @@ The following table describes all files within this solution:
 	 ```
 
 	Sample output
-	![e2e execution](./media/Basic/e2e-execution.png)
+	![e2e execution](./media/Basic/e2e-execution.PNG)
 
 	OR
 	
@@ -97,7 +97,7 @@ The following table describes all files within this solution:
     | -CleanupResources	| No		| False			|
 	
 	Sample output
-	![e2e execution](./media/Advanced/e2e-execution.png)
+	![e2e execution](./media/Advanced/e2e-execution.PNG)
 
 # Troubleshoot
 
