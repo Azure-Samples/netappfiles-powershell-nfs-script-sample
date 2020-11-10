@@ -72,6 +72,7 @@ The following table describes all files within this solution:
     Advanced mode - More advanced way to run the script to create Azure Netapp Files with validation using modules
 	 * Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Advanced**
 	 * Change values bewtween brackets [ ] below and then run the command 
+	 
      ```powershell 
 	 CreateANFVolume.ps1 -SubscriptionId '[subscriptionId]' -ResourceGroupName '[Azure Resource Group Name]' -Location '[Azure Location]' -NetAppAccountName '[ANF Account Name]' -NetAppPoolName '[ANF Capacity Pool Name]' -ServiceLevel [Ultra,Premium, Standard] -NetAppVolumeName '[ANF Volume Name]' -ProtocolType [NFSv3,NFSv4.1] -SubnetId '[Subnet ID]'
      ```
@@ -101,7 +102,7 @@ The following table describes all files within this solution:
 
 # Troubleshoot
 
-If you encounter the below issue when running the PoweShell command
+If you encounter the below issue when running the PoweShell command 
 
 ```
 .\CreateANFVolume.ps1 : .\CreateANFVolume.ps1 cannot be loaded. The file .\CreateANFVolume.ps1 is not digitally signed. You cannot 
@@ -119,3 +120,4 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 * [Resource limits for Azure NetApp Files](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-resource-limits)
 * [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart)
 * [Download Azure SDKs](https://azure.microsoft.com/downloads/)
+
