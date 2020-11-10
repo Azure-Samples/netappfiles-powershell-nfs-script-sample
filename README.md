@@ -7,7 +7,7 @@ products:
 - azure-netapp-files
 description: "This project demonstrates how to use Powershell with NetApp Files SDK for Microsoft.NetApp resource provider to deploy NFSv3 or NFSv4.1 Volume."
 ---
-
+ 
 # Azure NetAppFiles SDK NFSv3/NFS4.1 Sample Powershell
 
 This project demonstrates how to deploy NFSv3/NFSv4.1 protocol type volume using Powershell and Azure NetApp Files SDK.
@@ -15,7 +15,7 @@ This project demonstrates how to deploy NFSv3/NFSv4.1 protocol type volume using
 In this sample application we perform the following operations:
 
 * Creation
-  * ANF Account
+  * ANF Account 
   *	Capacity pool 
   * NFS Volume 
  
