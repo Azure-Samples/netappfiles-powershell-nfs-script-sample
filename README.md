@@ -24,7 +24,6 @@ In this sample application we perform the following operations:
 	
 	Note that the clean-up operation is not enabled by default. You need to set the parameter CleanupResources to $true for the clean-up code to take effect.
 
-
 If you don't already have a Microsoft Azure subscription, you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212).
 
 ## Prerequisites
@@ -52,6 +51,7 @@ The following table describes all files within this solution:
 # How to run the PowerShell script
 
 1. Clone the repository locally:
+
     ```powershell
     git clone https://github.com/Azure-Samples/netappfiles-powershell-nfs-sdk-sample.git
     ```
@@ -106,7 +106,6 @@ The following table describes all files within this solution:
 # Troubleshoot
 
 If you encounter the following issue when running the PoweShell command 
-
 ```
 .\CreateANFVolume.ps1 : .\CreateANFVolume.ps1 cannot be loaded. The file .\CreateANFVolume.ps1 is not digitally signed. You cannot 
 run this script on the current system.
