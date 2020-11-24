@@ -21,19 +21,18 @@ In this sample application we perform the following operations:
  
 * Deletion   
 	The clean-up process takes place, deleting all resources in the reverse order following the hierarchy. You cannot remove resources that have nested resources still live.   
-
-	Note that the clean-up operation is not enabled by default. You need to set the parameter CleanupResources to $true for the clean-up code to take effect. 
-
+	
+	Note that the clean-up operation is not enabled by default. You need to set the parameter CleanupResources to $true for the clean-up code to take effect.
 
 If you don't already have a Microsoft Azure subscription, you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212).
 
 ## Prerequisites
 
 1. Azure Subscription
-1. Subscription needs to be enabled for Azure NetApp Files. See [Submit a waitlist request for accessing the service](https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register#waitlist).
-1. Resource Group must be created
-1. Virtual Network with a delegated subnet to Microsoft.Netapp/volumes resource. For more information, see [Guidelines for Azure NetApp Files network planning](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies).
-1. Azure PowerShell. See [Install Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.8.0).
+1. Subscription needs to be enabled for Azure NetApp Files. For more information, see [Submit a waitlist request for accessing the service](https://docs.microsoft.com/azure/azure-netapp-files/azure-netapp-files-register#waitlist).
+1. Resource Group must be created.
+1. Virtual Network with a delegated subnet to Microsoft.Netapp/volumes resource. For more information, see [Guidelines for Azure NetApp Files network planning](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies). 
+1. Azure PowerShell.  See [Install Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.8.0).
 1. Run the following PS command:   
 	`Install-Module Az.NetAppFiles`
 
@@ -51,12 +50,13 @@ The following table describes all files within this solution:
 
 # How to run the PowerShell script
 
-1. Clone the repository locally
+1. Clone the repository locally:
+
     ```powershell
     git clone https://github.com/Azure-Samples/netappfiles-powershell-nfs-sdk-sample.git
     ```
 	
-1. Use the basic mode or the advanced mode. There are two options to run the script:
+1. Use the basic mode or the advanced mode. There are two options to run the script: 
 
 	Basic mode - Single script create Azure NetApp files with no validation.
 	 * Change folder to **netappfiles-powershell-nfs-sdk-sample\src\Basic**
@@ -105,8 +105,7 @@ The following table describes all files within this solution:
 
 # Troubleshoot
 
-If you encounter the following issue when running the PoweShell command:  
-
+If you encounter the following issue when running the PoweShell command 
 ```
 .\CreateANFVolume.ps1 : .\CreateANFVolume.ps1 cannot be loaded. The file .\CreateANFVolume.ps1 is not digitally signed. You cannot 
 run this script on the current system.
