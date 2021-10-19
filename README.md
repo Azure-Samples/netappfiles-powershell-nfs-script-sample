@@ -28,11 +28,12 @@ If you don't already have a Microsoft Azure subscription, you can get a FREE tri
 
 ## Prerequisites
 
-1. Azure Subscription
-1. Resource Group must be created.
-1. Virtual Network with a delegated subnet to Microsoft.Netapp/volumes resource. For more information, see [Guidelines for Azure NetApp Files network planning](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies). 
-1. Azure PowerShell.  See [Install Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.8.0).
-1. Run the following PS command:   
+1. Azure Subscription.
+2. Subscription needs to have Azure NetApp Files resource provider registered. For more information, see [Register for NetApp Resource Provider](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-register).
+3. Resource Group must be created.
+4. Virtual Network with a delegated subnet to Microsoft.Netapp/volumes resource. For more information, see [Guidelines for Azure NetApp Files network planning](https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-network-topologies). 
+5. Azure PowerShell.  See [Install Azure PowerShell](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-4.8.0).
+6. Run the following PS command:   
 	`Install-Module Az.NetAppFiles`
 
 
